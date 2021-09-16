@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Header from './Header';
+// import IsLoadingAndError from './IsLoadingAndError';
+import Footer from './Footer';
+import Login from './Login';
+import { withAuth0 } from '@auth0/auth0-react';
+import BestBooks from './BestBooks';
+import Profile from './compo/Profile';
+// import LoginButton from './compo/LoginButton';
+import MyFav from './compo/MyFav';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
+// import LoginButton from './compo/LoginButton';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+  render() {
+    console.log('app', this.props);
+    return(
+      <>
+        <Router>
+          {/* <IsLoadingAndError> */}
+            <Header />
+            <Switch>
+              <Route exact path="/">
+                {/* TODO: if the user is logged in, render the `BestBooks` component, if they are not, render the `Login` component */}
+                 {this.props.auth0.isAuthenticated? <BestBooks/> :  <Login /> }
+              </Route>
+              {/* TODO: add a route with a path of '/profile' that renders a `Profile` component */}
+              <Route  path="/profile"> <Profile/> </Route>
+              <Route  path="/myfav"> {this.props.auth0.isAuthenticated? <MyFav/> :  <Login /> } </Route>
+            </Switch>
+            <Footer />
+          {/* </IsLoadingAndError> */}
+        </Router>
+      </>
+    );
+  }
 }
 
-export default App;
+// export default App;
+export default withAuth0(App);
