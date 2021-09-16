@@ -11,7 +11,7 @@ class ModelUpdate extends React.Component {
             thumb: this.props.objinf.thumb,
             alt_description: e.target.alt_description.value,
             email: this.props.email,
-            _id:this.props.objinf.id
+            _id:this.props.objinf._id
             
         }
         
